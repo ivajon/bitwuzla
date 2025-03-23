@@ -10,9 +10,11 @@
 
 #include "bv/bitvector.h"
 
+#include <algorithm>
 #include <bitset>
 #include <cassert>
 #include <iostream>
+#include <ostream>
 #include <sstream>
 #include <utility>
 

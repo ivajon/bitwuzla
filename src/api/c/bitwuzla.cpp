@@ -9,7 +9,7 @@
  */
 
 extern "C" {
-#include <bitwuzla/c/bitwuzla.h>
+#include "../include/bitwuzla/c/bitwuzla.h"
 }
 
 #include <cassert>

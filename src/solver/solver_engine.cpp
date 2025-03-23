@@ -545,6 +545,25 @@ SolverEngine::_value(const Node& term)
                 nm.mk_node(cur.kind(), values, cur.indices()));
           }
           break;
+        case Kind::FP_TO_FP_TO_BV:
+          if (registered(cur))
+          {
+            value = 
+                d_bv_solver.value(cur);
+          }
+          else
+          {
+            // Partial floating-point operators have no constant folding
+            // available, ask floating-point solver for a value.
+            std::vector<Node> values;
+            for (const Node& arg : cur)
+            {
+              values.push_back(cached_value(arg));
+            }
+            value = d_fp_solver.value(
+                nm.mk_node(cur.kind(), values, cur.indices()));
+          }
+          break;
 
         // These FP kinds are part of the bit-vector abstraction. Values
         // are computed differently depending on solving mode.

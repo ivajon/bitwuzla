@@ -269,6 +269,7 @@ static const std::unordered_map<Kind, bzla::node::Kind> s_internal_kinds = {
     {Kind::FP_SQRT, bzla::node::Kind::FP_SQRT},
     {Kind::FP_SUB, bzla::node::Kind::FP_SUB},
     {Kind::FP_TO_FP_FROM_BV, bzla::node::Kind::FP_TO_FP_FROM_BV},
+    {Kind::FP_TO_FP_TO_BV, bzla::node::Kind::FP_TO_FP_TO_BV},
     {Kind::FP_TO_FP_FROM_FP, bzla::node::Kind::FP_TO_FP_FROM_FP},
     {Kind::FP_TO_FP_FROM_SBV, bzla::node::Kind::FP_TO_FP_FROM_SBV},
     {Kind::FP_TO_FP_FROM_UBV, bzla::node::Kind::FP_TO_FP_FROM_UBV},
@@ -2399,6 +2400,11 @@ TermManager::mk_term(Kind kind,
       }
       break;
     // binary, indexed (1)
+    case Kind::FP_TO_FP_TO_BV:
+      BITWUZLA_CHECK_MK_TERM_ARGC(kind, false, 1, args.size());
+      BITWUZLA_CHECK_MK_TERM_IDXC(kind, 0, indices.size());
+      BITWUZLA_CHECK_MK_TERM_ARGS(args, 0, is_fp, true);
+    break;
     case Kind::FP_TO_SBV:
     case Kind::FP_TO_UBV:
       BITWUZLA_CHECK_MK_TERM_ARGC(kind, false, 2, args.size());

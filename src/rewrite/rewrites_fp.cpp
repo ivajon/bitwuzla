@@ -10,6 +10,7 @@
 
 #include "rewrite/rewrites_fp.h"
 
+#include "bv/bitvector.h"
 #include "node/node_manager.h"
 #include "solver/fp/floating_point.h"
 
@@ -661,6 +662,22 @@ RewriteRule<RewriteRuleKind::FP_TO_FP_FROM_FP_EVAL>::_apply(Rewriter& rewriter,
       nm.mk_value(FloatingPoint(nm.mk_fp_type(node.index(0), node.index(1)),
                                 node[0].value<RoundingMode>(),
                                 node[1].value<FloatingPoint>()));
+  return res;
+}
+
+template <>
+Node
+RewriteRule<RewriteRuleKind::FP_TO_FP_TO_BV_EVAL>::_apply(Rewriter& rewriter,
+                                                          const Node& node)
+{
+  (void) rewriter;
+  assert(node.num_children() == 1);
+  assert(node[0].type().is_fp());
+  assert(node.num_indices() == 0);
+  if (!node[0].is_value()) return node;
+  NodeManager& nm = rewriter.nm();
+  BitVector res2       = node[0].value<FloatingPoint>().as_bv();
+  Node res        = nm.mk_value(res2);
   return res;
 }
 

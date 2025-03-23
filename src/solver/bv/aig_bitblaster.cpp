@@ -49,7 +49,7 @@ AigBitblaster::bitblast(const Node& t)
                                BitVector::from_ui(1, cur.value<bool>() ? 1 : 0))
                            : d_bitblaster.bv_value(cur.value<BitVector>());
           break;
-
+        case Kind::FP_TO_FP_TO_BV:
         // Boolean abstractions
         case Kind::FP_IS_INF:
         case Kind::FP_IS_NAN:

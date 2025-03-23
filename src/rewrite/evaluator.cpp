@@ -111,6 +111,8 @@ Evaluator::evaluate(NodeManager& nm,
       return nm.mk_value(FloatingPoint(nm.mk_fp_type(indices[0], indices[1]),
                                        values[0].value<RoundingMode>(),
                                        values[1].value<FloatingPoint>()));
+    case Kind::FP_TO_FP_TO_BV:
+      return nm.mk_value(values[0].value<FloatingPoint>().as_bv());
     case Kind::FP_ABS:
       return nm.mk_value(values[0].value<FloatingPoint>().fpabs());
     case Kind::FP_ADD:

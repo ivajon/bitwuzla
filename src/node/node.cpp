@@ -107,6 +107,7 @@ Node::type() const
 bool
 Node::is_value() const
 {
+  assert(!is_null());
   return d_data->get_kind() == node::Kind::VALUE;
 }
 

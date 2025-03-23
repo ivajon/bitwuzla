@@ -122,6 +122,7 @@ enum class Kind : uint8_t
   FP_TO_FP_FROM_BV,   // ((_ to_fp eb sb) (BitVec eb+sb))
   FP_TO_FP_FROM_FP,   // ((_ to_fp eb sb) RoundingMode (_ FloatingPoint mb nb))
   FP_TO_FP_FROM_SBV,  // ((_ to_fp eb sb) RoundingMode (_ BitVec m))
+  FP_TO_FP_TO_BV,  // ((_ to_fp eb sb) RoundingMode (_ BitVec m))
   FP_TO_FP_FROM_UBV,  // ((_ to_fp_unsigned eb sb) RoundingMode (_ BitVec m))
   FP_TO_SBV,          // ((_ fp.to_sbv m) RoundingMode (_ FloatingPoint eb sb))
   FP_TO_UBV,          // ((_ fp.to_ubv m) RoundingMode (_ FloatingPoint eb sb))

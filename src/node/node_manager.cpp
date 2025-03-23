@@ -351,6 +351,7 @@ NodeManager::compute_type(Kind kind,
     case Kind::FP_TO_SBV:
     case Kind::FP_TO_UBV: return d_tm.mk_bv_type(indices[0]);
 
+    case Kind::FP_TO_FP_TO_BV: return d_tm.mk_bv_type(children[0].type().fp_ieee_bv_size());
     case Kind::FP_TO_FP_FROM_BV:
     case Kind::FP_TO_FP_FROM_FP:
     case Kind::FP_TO_FP_FROM_SBV:
@@ -633,6 +634,13 @@ NodeManager::check_type(Kind kind,
       }
       break;
 
+    case Kind::FP_TO_FP_TO_BV:
+      if (!children[0].type().is_fp())
+      {
+        ss << kind << ": Expected floating-point term at position 0";
+        return std::make_pair(false, ss.str());
+      }
+      break;
     case Kind::FP_TO_FP_FROM_SBV:
     case Kind::FP_TO_FP_FROM_UBV:
       if (!children[0].type().is_rm())

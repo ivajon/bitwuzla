@@ -135,6 +135,7 @@ constexpr KindInfo::KindInfo()
   init(Kind::FP_SUB, 3, 0, "FP_SUB", "fp.sub");
   init(Kind::FP_TO_FP_FROM_BV, 1, 2, "FP_TO_FP_FROM_BV", "to_fp");
   init(Kind::FP_TO_FP_FROM_FP, 2, 2, "FP_TO_FP_FROM_FP", "to_fp");
+  init(Kind::FP_TO_FP_TO_BV, 1, 0, "FP_TO_FP_TO_BV", "to_fp_ieee754_bitvec");
   init(Kind::FP_TO_FP_FROM_SBV, 2, 2, "FP_TO_FP_FROM_SBV", "to_fp");
   init(Kind::FP_TO_FP_FROM_UBV, 2, 2, "FP_TO_FP_FROM_UBV", "to_fp_unsigned");
   init(Kind::FP_TO_SBV, 2, 1, "FP_TO_SBV", "fp.to_sbv");

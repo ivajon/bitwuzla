@@ -12,9 +12,9 @@
 #define BITWUZLA_API_C_BITWUZLA_STRUCTS_H_INCLUDED
 
 extern "C" {
-#include <bitwuzla/c/bitwuzla.h>
+#include "../include/bitwuzla/c/bitwuzla.h"
 }
-#include <bitwuzla/cpp/bitwuzla.h>
+#include "../include/bitwuzla/cpp/bitwuzla.h"
 
 #include <cassert>
 

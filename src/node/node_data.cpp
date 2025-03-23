@@ -10,6 +10,9 @@
 
 #include "node/node_data.h"
 
+#include <iostream>
+#include <ostream>
+
 #include "bv/bitvector.h"
 #include "node/node.h"
 #include "node/node_manager.h"
@@ -80,8 +83,10 @@ NodeData::alloc(Kind kind,
     for (size_t i = 0, size = children.size(); i < size; ++i)
     {
       assert(!children[i].is_null());
+      assert(children[i].kind() != Kind::NULL_NODE);
       payload.d_children[i] = children[i];
-      data->d_info.set(children[i].node_info());
+      auto info = children[i].node_info();
+      data->d_info.set(info);
     }
     payload.d_num_children = children.size();
 

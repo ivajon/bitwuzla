@@ -11,8 +11,8 @@
 #ifndef BITWUZLA_API_CPP_H_INCLUDED
 #define BITWUZLA_API_CPP_H_INCLUDED
 
-#include <bitwuzla/enums.h>
-#include <bitwuzla/option.h>
+#include "../include/bitwuzla/enums.h"
+#include "../include/bitwuzla/option.h"
 
 #include <functional>
 #include <iostream>

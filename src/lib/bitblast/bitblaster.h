@@ -14,6 +14,8 @@
 #include <cassert>
 #include <cmath>
 #include <cstddef>
+#include <cstdio>
+#include <ostream>
 #include <vector>
 
 #include "bv/bitvector.h"
@@ -284,6 +286,8 @@ class BitblasterInterface
 
   virtual Bits bv_eq(const Bits& a, const Bits& b)
   {
+    assert(a != nullptr);
+    assert(b != nullptr);
     assert(a.size() == b.size());
     T res = d_bit_mgr.mk_iff(a[0], b[0]);
     for (size_t i = 1; i < a.size(); ++i)

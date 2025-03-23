@@ -1701,6 +1701,22 @@ enum ENUM(Kind)
    *   * `bitwuzla::mk_term()`
    */
   EVALUE(FP_TO_FP_FROM_FP),
+  /*! Floating-point to_fp to floating-point in IEEE754 BV.
+   *
+   * **Number of Arguments:** 1
+   *
+   * **Number of Indices:** 1 (\f$s\f$)
+   *
+   * **Arguments:** \f$\mathit{FP}_{e's'} \rightarrow \mathit{FP}_{es}\f$
+   *
+   * **Create with:**
+   * - **C**
+   *   * `bitwuzla_mk_term2_indexed2()`
+   *   * `bitwuzla_mk_term()`
+   * - **C++**
+   *   * `bitwuzla::mk_term()`
+   */
+  EVALUE(FP_TO_FP_TO_BV),
   /*! Floating-point to_fp from signed bit-vector value.
    *
    * **SMT-LIB:** \c to_fp (indexed)

@@ -469,6 +469,7 @@ Printer::print(std::ostream& os,
         case Kind::FP_TO_FP_FROM_SBV:
         case Kind::FP_TO_FP_FROM_UBV:
         case Kind::FP_TO_SBV:
+        case Kind::FP_TO_FP_TO_BV:
         case Kind::FP_TO_UBV:
           os << "((_ " << symbol;
           for (size_t i = 0; i < cur.num_indices(); ++i)

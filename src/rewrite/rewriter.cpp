@@ -518,6 +518,7 @@ Rewriter::_rewrite(const Node& node)
     case node::Kind::FP_SUB: res = rewrite_fp_sub(n); break;
 
     case node::Kind::FP_TO_FP_FROM_BV: res = rewrite_fp_to_fp_from_bv(n); break;
+    case node::Kind::FP_TO_FP_TO_BV: res = rewrite_fp_to_fp_to_bv(n); break;
     case node::Kind::FP_TO_FP_FROM_FP: res = rewrite_fp_to_fp_from_fp(n); break;
     case node::Kind::FP_TO_FP_FROM_SBV:
       res = rewrite_fp_to_fp_from_sbv(n);
@@ -926,6 +927,11 @@ Rewriter::_eval(const Node& node)
           RewriteRule<RewriteRuleKind::FP_TO_FP_FROM_FP_EVAL>::apply(*this,
                                                                      node);
       break;
+    case node::Kind::FP_TO_FP_TO_BV:
+      std::tie(res, kind) =
+          RewriteRule<RewriteRuleKind::FP_TO_FP_TO_BV_EVAL>::apply(*this,
+                                                                     node);
+    break;
     case node::Kind::FP_TO_FP_FROM_SBV:
       std::tie(res, kind) =
           RewriteRule<RewriteRuleKind::FP_TO_FP_FROM_SBV_EVAL>::apply(*this,
@@ -1810,6 +1816,21 @@ DONE:
 }
 
 Node
+Rewriter::rewrite_fp_to_fp_to_bv(const Node& node)
+{
+  RewriteRuleKind kind;
+  Node res = node;
+
+  if (d_level >= 1)
+  {
+    BZLA_APPLY_RW_RULE(FP_TO_FP_TO_BV_EVAL);
+  }
+
+DONE:
+  return res;
+}
+
+Node
 Rewriter::rewrite_fp_to_fp_from_fp(const Node& node)
 {
   RewriteRuleKind kind;
@@ -2305,6 +2326,9 @@ operator<<(std::ostream& out, RewriteRuleKind kind)
     case RewriteRuleKind::FP_SQRT_EVAL: out << "FP_SQRT_EVAL"; break;
     case RewriteRuleKind::FP_TO_FP_FROM_BV_EVAL:
       out << "FP_TO_FP_FROM_BV_EVAL";
+      break;
+    case RewriteRuleKind::FP_TO_FP_TO_BV_EVAL:
+      out << "FP_TO_FP_TO_BV_EVAL";
       break;
     case RewriteRuleKind::FP_TO_FP_FROM_FP_EVAL:
       out << "FP_TO_FP_FROM_FP_EVAL";

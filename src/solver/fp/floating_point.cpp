@@ -24,6 +24,8 @@
 #include <symfpu/core/sign.h>
 #include <symfpu/core/sqrt.h>
 #include <symfpu/core/unpackedFloat.h>
+#include <iostream>
+#include <ostream>
 
 #include "node/node_manager.h"
 #include "solver/fp/symfpu_wrapper.h"
@@ -582,6 +584,15 @@ FloatingPoint::fpfma(const RoundingMode rm,
 BitVector
 FloatingPoint::as_bv() const
 {
+  std::cout << "Packing 0" << this << std::endl;
+  assert(this != nullptr);
+  assert(this->d_size != nullptr);
+  assert(this->d_uf != nullptr);
+  assert(this->d_uf->significand.getBv().size() != 0);
+  std::cout << "TY: " << this->d_size -> get_type().bv_size() << std::endl;
+  /*std::cout << "Packing 1" << this->d_size->str() << std::endl; */
+  /*std::cout << "Packing 2" << this ->d_uf->sign << std::endl;*/
+  /*std::cout << "Packing 3" << this -> d_uf -> significand  << std::endl;*/
   return symfpu::pack(*d_size, *d_uf).getBv();
 }
 

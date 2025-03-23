@@ -19,6 +19,7 @@
 #include <symfpu/core/remainder.h>
 #include <symfpu/core/sqrt.h>
 #include <symfpu/core/unpackedFloat.h>
+#include <ostream>
 
 #include "env.h"
 #include "node/node_ref_vector.h"
@@ -587,6 +588,17 @@ WordBlaster::_word_blast(const Node& node)
         d_internal->d_unpacked_float_map.emplace(
             cur,
             symfpu::unpack<SymFpuSymTraits>(type, SymFpuSymBV<false>(cur[0])));
+      }
+      else if (kind == node::Kind::FP_TO_FP_TO_BV)
+      {
+        /*assert(d_internal->d_rm_map.find(cur[0]) != d_internal->d_rm_map.end());*/
+        /*assert(cur[0].type().is_fp());*/
+        assert(d_internal->d_unpacked_float_map.find(cur[0])
+               != d_internal->d_unpacked_float_map.end());
+        /*std::cout << "Bitblast fpfpbv" << std::endl;*/
+        d_internal->d_ubv_map.emplace(cur,symfpu::pack(cur[0].type(),d_internal->d_unpacked_float_map.at(cur[0])));
+        ;
+            /*cur, cur[0].value<FloatingPoint>().as_bv());*/
       }
       else if (kind == node::Kind::FP_TO_FP_FROM_FP)
       {

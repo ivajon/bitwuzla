@@ -202,6 +202,15 @@ template <>
 Node RewriteRule<RewriteRuleKind::FP_TO_FP_FROM_BV_EVAL>::_apply(
     Rewriter& rewriter, const Node& node);
 
+/* to_fp: to_fp ----------------------------------------------------------- */
+
+// const_fp_to_fp_from_bv_exp
+template <>
+Node RewriteRule<RewriteRuleKind::FP_TO_FP_TO_BV_EVAL>::_apply(
+    Rewriter& rewriter, const Node& node);
+
+
+
 /* to_fp: from_fp ----------------------------------------------------------- */
 
 // const_fp_to_fp_from_fp_exp
