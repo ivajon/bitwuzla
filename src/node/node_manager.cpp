@@ -160,6 +160,10 @@ NodeManager::mk_node(Kind kind,
     return c.nm() == this;
   }));
 
+  // for (auto child: children) {
+  //   std::cout<<"Chiledren" << child.str() << std::endl;
+  // }
+
   NodeData* data = find_or_insert_node(kind, Type(), children, indices);
   return Node(data);
 }
@@ -824,6 +828,9 @@ NodeManager::find_or_insert_node(node::Kind kind,
                                  const std::vector<Node>& children,
                                  const std::vector<uint64_t>& indices)
 {
+    // for (auto child: children) {
+    //   std::cout<<"Chiledren" << child.str() << std::endl;
+    // }
   auto [inserted, data] =
       d_unique_table.find_or_insert(kind, type, children, indices);
   if (inserted)

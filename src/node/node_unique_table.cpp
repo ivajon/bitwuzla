@@ -1,5 +1,9 @@
 #include "node/node_unique_table.h"
+#include <iostream>
+#include <iterator>
+#include <ostream>
 
+#include "node/node_kind.h"
 #include "solver/fp/floating_point.h"
 
 namespace bzla::node {
@@ -58,7 +62,11 @@ NodeUniqueTable::find_or_insert(Kind kind,
     }
     cur = cur->d_next;
   }
-
+  // if (kind == Kind::SELECT) {
+  //   for (auto child: children) {
+  //     std::cout<<"Chiledren" << child.str() << std::endl;
+  //   }
+  // }
   // Create new node and insert
   NodeData* d = NodeData::alloc(kind, children, indices);
   if (needs_resize())

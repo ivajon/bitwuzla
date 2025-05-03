@@ -10,6 +10,8 @@
 
 #include "node/node_data.h"
 
+#include <ostream>
+
 #include "bv/bitvector.h"
 #include "node/node.h"
 #include "node/node_manager.h"
@@ -25,6 +27,7 @@ NodeData::alloc(Kind kind, const std::optional<std::string>& symbol)
   size_t size         = sizeof(NodeData);
   size_t payload_size = sizeof(PayloadSymbol);
 
+  // std::cout << "Running alloc for kind " << kind << std::endl;
   // Subtract size of payload placeholder in NodeData from payload size.
   size_t reserved_size = sizeof(NodeData::d_payload);
   payload_size         = std::max(payload_size, reserved_size) - reserved_size;
@@ -45,6 +48,10 @@ NodeData::alloc(Kind kind,
                 const std::vector<Node>& children,
                 const std::vector<uint64_t>& indices)
 {
+  // std::cout << "Running alloc for kind (with children) " << kind << std::endl;
+  // std::cout << "nchildren : " << children.size() << std::endl;
+  // std::cout << "indecies : " << indices.size() << std::endl;
+
   size_t size         = sizeof(NodeData);
   size_t payload_size = 0;
 
@@ -54,12 +61,14 @@ NodeData::alloc(Kind kind,
     payload_size +=
         sizeof(PayloadChildren::d_children[0]) * (children.size() - 1);
   }
+  // std::cout << "If(1)" << std::endl;
 
   if (!indices.empty())
   {
     payload_size += sizeof(PayloadIndexed);
     payload_size += sizeof(PayloadIndexed::d_indices[0]) * (indices.size() - 1);
   }
+  // std::cout << "If(2)" << std::endl;
 
   // Subtract size of payload placeholder in NodeData from payload size.
   size_t reserved_size = sizeof(NodeData::d_payload);
@@ -70,20 +79,42 @@ NodeData::alloc(Kind kind,
   {
     throw std::bad_alloc();
   }
+  // std::cout << "If(3)" << std::endl;
   data->d_kind = kind;
 
   // Connect children payload
   if (!children.empty())
   {
+    // std::cout << "Retrieving payload children" << std::endl;
     auto& payload = data->payload_children();
+    // std::cout << "Assertion pre for loop" << std::endl;
     assert(payload.d_num_children == 0);
+    // std::cout << "For loop time" << std::endl;
+    size_t counter = 0;
     for (size_t i = 0, size = children.size(); i < size; ++i)
     {
+      // std::cout << "Getting children at index to check if null" << std::endl;
       assert(!children[i].is_null());
+      // std::cout << "Appending children to payload" << std::endl;
       payload.d_children[i] = children[i];
-      data->d_info.set(children[i].node_info());
+      // std::cout << "Getting child at index" << std::endl;
+      auto child = children[i];
+      // std::cout << "Getting node info"<< std::endl;
+      // std::cout << "Getting node of (type) "<< child.type() <<std::endl;
+      // std::cout << "Getting node for "<< child.str() <<std::endl;
+      // if (child.str() == ")") {
+      //   continue;
+      //
+      // }
+      auto info = child.node_info();
+      // std::cout << "Setting node info" << std::endl;
+
+      data->d_info.set(info);
+      // std::cout << "Iteration done" << std::endl;
+      counter ++;
     }
-    payload.d_num_children = children.size();
+    // std::cout << "For loop worked" << std::endl;
+    payload.d_num_children = counter;
 
     if (kind == Kind::FORALL || kind == Kind::EXISTS)
     {
@@ -93,7 +124,9 @@ NodeData::alloc(Kind kind,
     {
       data->info().lambda = 1;
     }
+    // std::cout << "If(4)" << std::endl;
   }
+  // std::cout << "If(5)" << std::endl;
 
   // Connect indices payload
   if (!indices.empty())
@@ -106,6 +139,7 @@ NodeData::alloc(Kind kind,
     }
     payload.d_num_indices = indices.size();
   }
+  // std::cout << "If()" << std::endl;
 
   return data;
 }

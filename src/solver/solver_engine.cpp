@@ -426,6 +426,11 @@ SolverEngine::_value(const Node& term)
       Node value;
       Kind k = cur.kind();
 
+      // std::cout<<"NODE : " << term.str()  << std::endl;
+      // std::cout<<"NODE (KIND): " << k << std::endl;
+      // for (auto child: cur) {
+        // std::cout<<"FIELDS : " << child.str() << " Cached: " << cached_value(child) << std::endl;
+      // }
       // If we encounter an unregistered node after solving, for some node
       // kinds we have to compute the values differently than during solving.
       // In these cases we ask the corresponding theory solver to generate a
@@ -444,8 +449,9 @@ SolverEngine::_value(const Node& term)
             if (k == Kind::SELECT)
             {
               Log(3) << "unregistered select encountered: " << cur;
+              // std::cout<<"PATCH: Ignoring cache of array in select at this causes segfaults!" << std::endl;
               Node sel = nm.mk_node(
-                  Kind::SELECT, {cached_value(cur[0]), cached_value(cur[1])});
+                  Kind::SELECT, {cur[0], cached_value(cur[1])});
               value = d_array_solver.value(sel);
             }
             // Compute value of function application based on current function
@@ -629,7 +635,7 @@ SolverEngine::_value(const Node& term)
 
         case Kind::STORE:
           value = nm.mk_node(Kind::STORE,
-                             {cached_value(cur[0]),
+                             {cur[0],
                               cached_value(cur[1]),
                               cached_value(cur[2])});
           // Call array solver to normalize value
