@@ -23,6 +23,7 @@
 #include <unordered_set>
 #include <variant>
 #include <vector>
+#include <cstdint>
 
 // TODO mark functions that may change in the future as experimental for release
 
